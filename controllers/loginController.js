@@ -8,8 +8,7 @@ const { JWT_SECRET } = require('../config');
 const User = require('../models/User');
 
 
-
-router.post('/', async (req, res) => {
+const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -29,7 +28,6 @@ router.post('/', async (req, res) => {
             return res.status(400).send({ message: 'Invalid  password' });
         }
 
-        user.roles = "user";
         const token = jwt.sign({ userId: user._id, useremail: user.email, role: user.roles }, JWT_SECRET);
 
         return res.status(200).send({ message: 'Logged in successfully', token });
@@ -37,7 +35,7 @@ router.post('/', async (req, res) => {
         console.error(error);
         res.status(500).send({ message: 'Something went wrong. Please try again later.' });
     }
-});
+};
 
 
 // router.post('/forgot-password', async (req, res) => {
@@ -92,4 +90,4 @@ router.post('/', async (req, res) => {
 //     }
 // };
 
-module.exports = router;
+module.exports = { login };

@@ -1,10 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const Coupon = require('../models/Coupon');
 const User = require('../models/User');
 
 
-router.post('/', async (req, res) => {
+const assignCoupon = async (req, res) => {
     try {
         const { userid, couponCode, discountPercentage } = req.body;
         const user = await User.findOne({ userId: userid });
@@ -19,19 +18,18 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(400).json({ error });
     }
-});
+};
 
-
-router.get('/', async (req, res) => {
+const showAllAssignCoupon = async (req, res) => {
     try {
         const coupons = await Coupon.find();
         res.send(coupons);
     } catch (error) {
         res.status(500).send(error);
     }
-});
+};
 
-router.put('/edit-coupon/:id', async (req, res) => {
+const editCoupon = async (req, res) => {
     try {
         const { id } = req.params;
         const { couponName, code, discountPercentage } = req.body;
@@ -50,9 +48,9 @@ router.put('/edit-coupon/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
+};
 
-router.delete('/delete-coupon/:id', async (req, res) => {
+const deleteCoupon = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -66,6 +64,11 @@ router.delete('/delete-coupon/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
+};
 
-module.exports = router;
+module.exports = {
+    assignCoupon,
+    showAllAssignCoupon,
+    editCoupon,
+    deleteCoupon
+};

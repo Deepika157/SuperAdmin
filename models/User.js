@@ -7,20 +7,20 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  gender:{
+  gender: {
     type: String,
     required: true,
-    default : null,
+    default: null,
   },
-  phone:{
+  phone: {
     type: Number,
     required: true,
-    default : null
+    default: null
   },
-  email:{
+  email: {
     type: String,
     required: true,
-    default : null
+    default: null
   },
   lastUpdated: {
     type: String,
@@ -29,28 +29,29 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    default : null
+    default: null
   },
-  confirmPassword:{
+  confirmPassword: {
     type: String,
     required: true,
-    default : null
+    default: null
   },
   roles: {
-    type: String, 
-    enum: ['user', 'Superadmin']
+    type: String,
+    default: "user",
+    // enum: ['user', 'Superadmin']
   },
-  rolePhase:{
-     type: String,
+  rolePhase: {
+    type: String,
   },
   userId: {
     type: String,
-    default : null,
+    default: null,
   }
 });
 
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
   }

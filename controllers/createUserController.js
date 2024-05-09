@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
 
-router.post('/create-user', async (req, res) => {
+const createuser = async (req, res) => {
     try {
         const { username, gender, phone, email, password, confirmPassword, roles } = req.body;
 
@@ -27,20 +27,20 @@ router.post('/create-user', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
+};
 
 
-router.get('/showAllUsers', async (req, res) => {
+const showAllUsers = async (req, res) => {
     try {
         const users = await User.find();
         res.send(users);
     } catch (error) {
         res.status(500).send(error);
     }
-});
+};
 
 
-router.put('/edit-user/:id', async (req, res) => {
+const editUser = async (req, res) => {
     try {
         const { id } = req.params;
         const { username, gender, phone, email, password, confirmPassword } = req.body;
@@ -59,9 +59,9 @@ router.put('/edit-user/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
+};
 
-router.delete('/delete-user/:id', async (req, res) => {
+const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -75,7 +75,7 @@ router.delete('/delete-user/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
+};
 
 let userIDCounter = 1;
 
@@ -85,6 +85,11 @@ function generateUserID() {
     return paddedID;
 }
 
-module.exports = router;
+module.exports = {
+    createuser,
+    showAllUsers,
+    editUser,
+    deleteUser
+};
 
 

@@ -1,10 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const User = require('../models/User');
 const Role = require('../models/Role');
 
 
-router.post('/assign-role', async (req, res) => {
+const assignRole = async (req, res) => {
     try {
         const { username, userid, rolename, description } = req.body;
         const user = await User.findOne({ username, userId: userid });
@@ -27,10 +26,10 @@ router.post('/assign-role', async (req, res) => {
         res.status(400).send(error);
     }
 
-});
+};
 
 
-router.post('/accept', async (req, res) => {
+const accept = async (req, res) => {
 
     try {
         const user = await User.findOne({ userId: req.body.uid });
@@ -51,10 +50,10 @@ router.post('/accept', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error });
     }
-});
+};
 
 
-router.post('/reject', async (req, res) => {
+const reject = async (req, res) => {
 
     try {
         const user = await User.findOne({ userId: req.body.uid });
@@ -75,20 +74,20 @@ router.post('/reject', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error });
     }
-});
+};
 
 
-router.get('/showAllAssignRoles', async (req, res) => {
+const showAllAssignRoles = async (req, res) => {
     try {
         const roles = await Role.find();
         res.send(roles);
     } catch (error) {
         res.status(500).send(error);
     }
-});
+};
 
 
-router.put('/edit-role/:id', async (req, res) => {
+const editRole = async (req, res) => {
     try {
         const { id } = req.params;
         const { roleName, description } = req.body;
@@ -107,10 +106,10 @@ router.put('/edit-role/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
+};
 
 
-router.delete('/delete-role/:id', async (req, res) => {
+const deleteRole = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -124,9 +123,16 @@ router.delete('/delete-role/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-});
+};
 
-module.exports = router;
+module.exports = {
+    assignRole,
+    accept,
+    reject,
+    showAllAssignRoles,
+    editRole,
+    deleteRole,
+};
 
 
 
